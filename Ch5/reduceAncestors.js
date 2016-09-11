@@ -24,7 +24,7 @@ function sharedDNA(person, fromMother, fromFather){
 var ph = byName["Philibert Haverbeke"];
 console.log(reduceAncestors(ph, sharedDNA, 0)/4)
 
-//count log living ancestors for a person
+//count long living ancestors for a person
 function countAncestors(person, test){
     function combine(person, fromMother, fromFather){
         var thiOneCounts = test(person);
