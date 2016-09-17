@@ -37,7 +37,7 @@ console.log("hiddenNonsense" in map);
 console.log(map.hasOwnProperty("hiddenNonsense"));
 //hasOwnProperty tells us whether the object itself has the property, without looking at the prototype. IN tells us in general if object or its prototype has the property
 
-//when in doubt that someone might have messed with the base object prototype, use the following check
+//when in doubt that someone (or other part of code) might have messed with the base object prototype, use the following check
 for(var name in map){
     if (map.hasOwnProperty(name))
         console.log(name);        
