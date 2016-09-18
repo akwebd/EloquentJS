@@ -43,7 +43,7 @@ function repeat(string, times){
 }
 
 function TextCell(text){
-    this.text = text.split("/n");
+    this.text = text.split("\n");
 }
 TextCell.prototype.minWidth = function(){
     return this.text.reduce(function(width, line){
@@ -76,3 +76,33 @@ for(var i = 0; i < 5; i++){
 }
 
 console.log(drawTable(rows));
+
+//underlined heading
+function UnderlinedCell(inner){
+    this.inner = inner;
+}
+UnderlinedCell.prototype.minWidth = function(){
+    return this.inner.minWidth();
+};
+UnderlinedCell.prototype.minHeight = function(){
+    return this.inner.minHeight() + 1;    
+};
+UnderlinedCell.prototype.draw = function(width, height){
+    return this.inner.draw(width, height - 1).concat([repeat("-", width)]);
+};
+
+//function to buil up a grid of cells from input data set
+function dataTable(data){
+    var keys = Object.keys(data[0]);
+    var headers = keys.map(function(name){
+        return new UnderlinedCell(new TextCell(name));
+    });
+    var body = data.map(function(row){
+        return keys.map(function(name){
+            return new TextCell(String(row[name]));
+        });
+    });
+    return [headers].concat(body);
+}
+console.log(MOUNTAINS[0]);
+console.log(drawTable(dataTable(MOUNTAINS)));
