@@ -34,6 +34,57 @@
 //}
 //RangeSeq.prototype = Object.create(Sequence.prototype);
 //above code does not solve the problem correctly. new code to be programmed
+
+
+//the interface will contain two methods:
+//next - bool method to check if next sequence element exists;
+//current - int method to return current sequence element;
+
+//write a function logFive that takes a sequence object and calls console.log on its first five elements, or fewer, if sequence has fewer elements
+function logFive(seq){    
+    for(var i = 0; i < 5; i++)
+        if(seq.next())
+            console.log(seq.current());
+        else
+            break;
+}
+//implement an object type ArraySeq that wraps an array and allows iteration over the array using already defined interface
+function ArraySeq(array){
+    this.sElem = 0;
+    this.sequence = array;
+}
+ArraySeq.prototype.next = function(){
+    if (this.sElem < this.sequence.length)
+        return true;
+    else {
+        this.sElem = 0;
+        return false;
+    }
+};
+ArraySeq.prototype.current = function(){
+    this.sElem++;
+    return this.sequence[this.sElem - 1];
+}
+
+//implement object type RangeSeq that iterates over a range of integers taking FROM and TO arguments to its constructor
+function RangeSeq(from, to){
+    this.sElem = from;
+    this.from = from;
+    this.to = to;
+}
+RangeSeq.prototype.next = function(){
+    this.sElem++;
+    if (this.sElem < this.to)
+        return true;
+    else {
+        this.sElem = this.to;
+        return false;
+    }
+};
+RangeSeq.prototype.current = function(){
+    return this.sElem - 1;
+}
+
 //tests from the book
 logFive(new ArraySeq([1, 2]));
 // → 1
