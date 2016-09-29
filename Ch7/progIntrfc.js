@@ -12,7 +12,7 @@ var directions = {
 
 //critter objects
 function randomElement(array){
-    return array[Math.floor(Math.random() * array.lenght)];
+    return array[Math.floor(Math.random() * array.length)];
 }
 
 var directionNames = "n ne e se s sw w nw".split(" ");
@@ -42,7 +42,7 @@ function World(map, legend){
     
     map.forEach(function(line, y){
         for(var x = 0; x < line.length; x++)
-            grid.set(new Vector(x, y),elementFromChar(legend, line[x]));
+            grid.set(new Vector(x, y), elementFromChar(legend, line[x]));
     });
 }
 
@@ -123,5 +123,8 @@ View.prototype.find = function(ch){
 //test World object by creating already defined map, toString method should return very similar map
 var world = new World(plan, {"#": Wall,
                              "o": BouncingCritter});
-console.log(plan);
-console.log(world.toString());
+//test if critters actually move
+for(var i = 0; i < 5; i++){
+    world.turn();
+    console.log(world.toString());
+}
