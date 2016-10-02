@@ -125,6 +125,6 @@ var world = new World(plan, {"#": Wall,
                              "o": BouncingCritter});
 //test if critters actually move
 for(var i = 0; i < 5; i++){
-    world.turn();
-    console.log(world.toString());
+    valley.turn();
+    console.log(valley.toString());
 }
