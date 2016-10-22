@@ -1,47 +1,35 @@
 console.log("-----car and cat match-----");
-verify(/car|t/,
+verify(/ca[rt]/,
        ["my car", "bad cats"],
        ["camper", "high art"]);
 
 console.log("-----pop and prop-----");
-test(/pr?op/, cases[1]);
-
-console.log("-----ferret and ferry and ferrari-----");
-test(/ferr(et|y|ari)/, cases[2]);
-
-console.log("-----ending in ious-----");
-test(/ious$/, cases[3]);
-
-console.log("-----whitespace followed by a . , : ;-----");
-test(/\s(\.|\,|\;|\:)/, cases[4]);
-
-console.log("-----word longer than six letters-----");
-test(/\w{6,}/, cases[5]);
-
-console.log("-----word without e-----");
-test(/[^e+]/, cases[6]);
-
-verify(/.../,
+verify(/pr?op/,
        ["pop culture", "mad props"],
        ["plop"]);
 
-verify(/.../,
+console.log("-----ferret and ferry and ferrari-----");
+verify(/ferr(et|y|ari)/,
        ["ferret", "ferry", "ferrari"],
        ["ferrum", "transfer A"]);
 
-verify(/.../,
+console.log("-----ending in ious-----");
+verify(/ious\b/,
        ["how delicious", "spacious room"],
        ["ruinous", "consciousness"]);
 
-verify(/.../,
+console.log("-----whitespace followed by a . , : ;-----");
+verify(/\s[.,;:]/,
        ["bad punctuation ."],
        ["escape the dot"]);
 
-verify(/.../,
+console.log("-----word longer than six letters-----");
+verify(/\w{7,}/,
        ["hottentottententen"],
        ["no", "hotten totten tenten"]);
 
-verify(/.../,
+console.log("-----word without e-----");
+verify(/\b[a-df-z]+\b/,
        ["red platypus", "wobbling nest"],
        ["earth bed", "learning ape"]);
 
