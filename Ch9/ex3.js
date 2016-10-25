@@ -1,7 +1,7 @@
 //Write an expression that matches only JavaScript-style numbers.
 
 // Fill in this regular expression.
-var number = /^[+-]{0,1}(\d+.|.\d+|\d+|\d+.\d+)([eE][-+]?\d+)?$/;
+var number = /^[+-]?(\d+\.|\.\d+|\d+|\d+\.\d+)([eE][-+]?\d+)?$/;
 
 // Tests:
 ["1", "-1", "+15", "1.55", ".5", "5.", "1.3e2", "1E-4",
