@@ -1,0 +1,15 @@
+<!doctype html><!doctype html>
+
+<input type="text">
+<script>
+    var field = document.querySelector("input");
+    var oldText = "";
+    var forbiden = [81, 87, 88];
+    /*Censored keyboard
+    letters Q, W and X should not be allowed to type into input field. Copy/Paste case should not be handled*/
+    addEventListener("keydown", function(event){  
+        if (forbiden.indexOf(event.keyCode) != -1){
+            event.preventDefault();
+        }
+    });
+</script>
