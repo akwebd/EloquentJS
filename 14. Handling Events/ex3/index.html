@@ -12,15 +12,74 @@
 In this exercise you’ll implement a simple tabbed interface. Write a function, asTabs, that takes a DOM node and creates a tabbed interface showing the child elements of that node. It should insert a list of <button> elements at the top of the node, one for each child element, containing text retrieved from the data-tabname attribute of the child. All but one of the original children should be hidden (given a display style of none), and the currently visible node can be selected by clicking the buttons.
 
 When it works, extend it to also style the currently active button differently.*/
+      
+      var activeTab = "one";
       var allDataTabs = node.querySelectorAll("div");
+      var allObj = {};
+      var listNode = document.createElement('div');
       for (var i = 0; i < allDataTabs.length; i++){
           var button = document.createElement('BUTTON');
           button.innerHTML = allDataTabs[i].getAttribute("data-tabname");
           if (i > 0)//hide all but first data tab
               allDataTabs[i].style.display = 'none';
-          node.parentElement.insertBefore(button, node);
-      }
+          
+          allObj[allDataTabs[i].getAttribute("data-tabname")] = {'div':allDataTabs[i], 'button':button};
+          button.addEventListener('click', function(event){
+              activateTab(event.target.innerHTML);
+          });
+          listNode.appendChild(button);          
+      }  
+          node.insertBefore(listNode, node.firstChild);
       
+      function activateTab(label)
+      {
+          //reset previous tab
+          allObj[activeTab]['div'].style.display = 'none';
+          allObj[activeTab]['button'].style.color = '';
+          allObj[activeTab]['button'].style.background = '';
+          //set current tab
+          activeTab = label;
+          allObj[activeTab]['div'].style.display = '';
+          allObj[activeTab]['button'].style.color = 'buttonface';
+          allObj[activeTab]['button'].style.background = 'buttontext';
+      } 
+      activateTab("one");
   }
+    
+    
+    //From the book
+    /*function asTabs(node) {
+    var tabs = [];
+    for (var i = 0; i < node.childNodes.length; i++) {
+      var child = node.childNodes[i];
+      if (child.nodeType == document.ELEMENT_NODE)
+        tabs.push(child);
+    }
+
+    var tabList = document.createElement("div");
+    tabs.forEach(function(tab, i) {
+      var button = document.createElement("button");
+      button.textContent = tab.getAttribute("data-tabname");
+      button.addEventListener("click", function() { selectTab(i); });
+      tabList.appendChild(button);
+    });
+    node.insertBefore(tabList, node.firstChild);
+
+    function selectTab(n) {
+      tabs.forEach(function(tab, i) {
+        if (i == n)
+          tab.style.display = "";
+        else
+          tab.style.display = "none";
+      });
+      for (var i = 0; i < tabList.childNodes.length; i++) {
+        if (i == n)
+          tabList.childNodes[i].style.background = "violet";
+        else
+          tabList.childNodes[i].style.background = "";
+      }
+    }
+    selectTab(0);
+  }*/
   asTabs(document.querySelector("#wrapper"));
 </script>
