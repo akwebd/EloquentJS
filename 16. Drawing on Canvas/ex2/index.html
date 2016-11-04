@@ -1,0 +1,39 @@
+<!doctype html>
+
+<style>
+    .trail { /* className for the trail elements */
+        position: absolute;
+        height: 6px; width: 6px;
+        border-radius: 3px;
+        background: teal;
+        
+    }
+    body {
+        height: 300px;
+    }
+</style>
+<body></body>
+<script>
+    //Mouse trail. Create bunch of <div> elements and when mouse moves, display them in the wake of the mouse pointer.
+    //create nmbr of div elemets to be used for this exercise
+    var nmbr = 30;
+    for (var i = 0; i < nmbr; i++){
+        var element = document.createElement("DIV");
+        element.className = "trail";
+        element
+        document.body.appendChild(element);
+    }
+    
+    //change position of all previously created DIVs based on mouse location
+    var elementArray = document.querySelectorAll(".trail");
+    var elemNr = 0;
+    document.addEventListener("mousemove", function(event){
+        elementArray[elemNr].style.left =  (event.clientX - 3) + 'px';//initially 'px' was missing and it did not worked properly
+        elementArray[elemNr].style.top = (event.clientY - 3) + 'px';
+            elemNr++;
+        if (elemNr > elementArray.length - 1)
+            elemNr = 0;
+        console.log(elementArray);
+    });
+    
+</script>

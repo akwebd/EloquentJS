@@ -1,0 +1,34 @@
+<!doctype html>
+
+<canvas width="600" height="200"></canvas>
+<script>
+    var cx = document.querySelector("canvas").getContext("2d");
+    
+    //1. Trapezoid
+    function trapezoid(canvas, x, y, w1, h1, w2, h2){
+        function isDefined(n1, n2){
+            return n1 === undefined ? n2 : n1;
+        }
+        canvas.beginPath();
+        var coord = [
+            {'x' : x + w1, 'y' : y - (isDefined(h2, h1) - h1) / 2},
+            {'x' : x + w1 + (isDefined(w2, w1) - w1) / 2, 'y' : y - (isDefined(h2, h1) - h1) / 2 + isDefined(h2, h1)},
+            {'x' : x - (isDefined(w2, w1) - w1) / 2, 'y' : y + h1},            
+            {'x' : x, 'y' : y}
+        ];
+        canvas.moveTo(coord[3].x, coord[3].y);
+        for ( var i = 0; i < coord.length; i++)
+                canvas.lineTo(coord[i].x, coord[i].y);
+        canvas.stroke();        
+    }
+    //2. Red Diamond
+    function redDiamond(canvas, x, y, w, h){
+        canvas.fillStyle = 'red';
+        canvas.translate (0, 0);
+        canvas.rotate(-0.25);
+        canvas.fillRect(x, y, w, h);
+    }
+    
+    trapezoid(cx, 60, 60, 40, 40, 50);
+    redDiamond(cx, 130, 60, 50, 50)
+</script>
