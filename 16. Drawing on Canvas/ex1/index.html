@@ -23,12 +23,30 @@
     }
     //2. Red Diamond
     function redDiamond(canvas, x, y, w, h){
+        canvas.save();
         canvas.fillStyle = 'red';
-        canvas.translate (0, 0);
-        canvas.rotate(-0.25);
+        canvas.translate (y + w, -x + h);
+        canvas.rotate(Math.PI / 4);
         canvas.fillRect(x, y, w, h);
+        canvas.restore();
+    }
+    
+    //3. Zigzagging line
+    function zigZag(canvas, x, y, length, angle, n){
+        var rot = 2 * angle - 360;
+        canvas.save();
+        canvas.translate(x, y);
+        canvas.rotate(angle);
+        for (var i = 0; i < n; i++){
+            rot = -1 * rot ;
+            canvas.fillRect(0, 0, length, 1);
+            canvas.translate(length, 0);
+            canvas.rotate(rot);
+        }
+        canvas.restore();
     }
     
     trapezoid(cx, 60, 60, 40, 40, 50);
-    redDiamond(cx, 130, 60, 50, 50)
+    redDiamond(cx, 130, 50, 50, 50);
+    zigZag(cx, 200, 50, 50, 15, 12);
 </script>
