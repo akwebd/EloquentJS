@@ -1,39 +1,45 @@
 <!doctype html>
+<!--<script src="code/chapter/15_game.js"></script>
+<script src="code/game_levels.js"></script>
+<script src="code/chapter/16_canvas.js"></script>-->
 
-<style>
-    .trail { /* className for the trail elements */
-        position: absolute;
-        height: 6px; width: 6px;
-        border-radius: 3px;
-        background: teal;
-        
-    }
-    body {
-        height: 300px;
-    }
-</style>
-<body></body>
+<canvas width="600" height="300"></canvas>
 <script>
-    //Mouse trail. Create bunch of <div> elements and when mouse moves, display them in the wake of the mouse pointer.
-    //create nmbr of div elemets to be used for this exercise
-    var nmbr = 30;
-    for (var i = 0; i < nmbr; i++){
-        var element = document.createElement("DIV");
-        element.className = "trail";
-        element
-        document.body.appendChild(element);
-    }
+    var results = [
+        {name: "Satisfied", count: 1043, color: "lightblue"},
+        {name: "Neutral", count: 563, color: "lightgreen"},
+        {name: "Unsatisfied", count: 510, color: "pink"},
+        {name: "No comment", count: 175, color: "silver"}
+    ];
+    var cx = document.querySelector("canvas").getContext("2d");
+    var total = results.reduce(function(sum, choice) {
+        return sum + choice.count;
+    }, 0);
+
+    var currentAngle = -0.5 * Math.PI;
+    var centerX = 300, centerY = 150;
+    var labelX, labelY, labelAngle;
     
-    //change position of all previously created DIVs based on mouse location
-    var elementArray = document.querySelectorAll(".trail");
-    var elemNr = 0;
-    document.addEventListener("mousemove", function(event){
-        elementArray[elemNr].style.left =  (event.clientX - 3) + 'px';//initially 'px' was missing and it did not worked properly
-        elementArray[elemNr].style.top = (event.clientY - 3) + 'px';
-            elemNr++;
-        if (elemNr > elementArray.length - 1)
-            elemNr = 0;
-        console.log(elementArray);
+    cx.font = "14px Georgia";
+    results.forEach(function(result) {        
+        cx.fillStyle = result.color;
+        var sliceAngle = (result.count / total) * 2 * Math.PI;
+        cx.beginPath();
+        cx.arc(centerX, centerY, 100,
+               currentAngle, currentAngle + sliceAngle);
+        
+        labelAngle = currentAngle + 0.5 * sliceAngle;
+        
+        labelX = centerX + 110 * Math.cos(labelAngle);
+        labelY = centerY + 110 * Math.sin(labelAngle);
+        if(Math.cos(labelAngle) > 0)
+            cx.textAlign = 'left';
+        else
+            cx.textAlign = 'right';
+        cx.fillText(result.name,labelX, labelY);
+        
+        currentAngle += sliceAngle;
+        cx.lineTo(centerX, centerY);
+        cx.fill();
     });
-    
 </script>
