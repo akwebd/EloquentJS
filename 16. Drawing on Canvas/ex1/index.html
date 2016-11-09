@@ -25,19 +25,19 @@
     function redDiamond(canvas, x, y, w, h){
         canvas.save();
         canvas.fillStyle = 'red';
-        canvas.translate (x + w/2, y + h/2);
+        canvas.translate (x + w/2, y + h/2); //set zero point in the middle of rotated object
         canvas.rotate(Math.PI / 4);        
-        canvas.translate (-w/2, -h/2);
+        canvas.translate (-w/2, -h/2); //re-alocate object
         canvas.fillRect(0, 0, w, h);
         canvas.restore();
     }
     
     //3. Zigzagging line
     function zigZag(canvas, x, y, length, angle, n){
-        var rot = 2 * angle - 360;
+        var rot = (2 * angle - 180) * Math.PI/180;//angles should be in radians     
         canvas.save();
         canvas.translate(x, y);
-        canvas.rotate(angle);
+        canvas.rotate(angle * Math.PI/180);        
         for (var i = 0; i < n; i++){
             rot = -1 * rot ;
             canvas.fillRect(0, 0, length, 1);
@@ -47,7 +47,41 @@
         canvas.restore();
     }
     
+    //4. Spiral
+    function spiral(canvas, x, y){
+        canvas.lineWidth = 2;
+        canvas.beginPath();
+        canvas.moveTo(x, y);
+        var radius = 0;
+        var angle = 0;
+        for (var i = 0; i < 100; i++){
+            radius += 0.5;
+            angle += (Math.PI * 2) / 30;
+            var x1 = x + radius * Math.cos(angle);
+            var y1 = y + radius * Math.sin(angle);
+            canvas.lineTo(x1, y1);
+        }
+        canvas.stroke();
+    }
+    
+    //5. Yellow star
+    function yellowStar(canvas, x, y, w){
+        canvas.beginPath();
+        canvas.moveTo(x + w/2, y);
+        var angle = 0;
+        for (var i = 0; i < 8; i++){
+            angle += (Math.PI * 2) / 8;
+            var x1 = x + w/2 * Math.cos(angle);
+            var y1 = y + w/2 * Math.sin(angle); 
+            canvas.quadraticCurveTo(x, y, x1, y1);
+        }
+        canvas.fillStyle = 'gold';
+        canvas.fill();        
+    }
+    
     trapezoid(cx, 60, 60, 40, 40, 50);
     redDiamond(cx, 130, 50, 50, 50);
-    zigZag(cx, 200, 50, 50, 15, 12);
+    zigZag(cx, 200, 50, 50, 10, 12);
+    spiral(cx, 300, 50);
+    yellowStar(cx, 450, 70, 100);
 </script>
