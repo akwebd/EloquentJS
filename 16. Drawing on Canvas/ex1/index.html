@@ -1,6 +1,6 @@
 <!doctype html>
 
-<canvas width="600" height="200"></canvas>
+<canvas width="600" height="600"></canvas>
 <script>
     var cx = document.querySelector("canvas").getContext("2d");
     
@@ -25,9 +25,10 @@
     function redDiamond(canvas, x, y, w, h){
         canvas.save();
         canvas.fillStyle = 'red';
-        canvas.translate (y + w, -x + h);
-        canvas.rotate(Math.PI / 4);
-        canvas.fillRect(x, y, w, h);
+        canvas.translate (x + w/2, y + h/2);
+        canvas.rotate(Math.PI / 4);        
+        canvas.translate (-w/2, -h/2);
+        canvas.fillRect(0, 0, w, h);
         canvas.restore();
     }
     
