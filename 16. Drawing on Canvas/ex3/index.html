@@ -12,26 +12,39 @@
     requestAnimationFrame(frame);
 
     /*Use the requestAnimationFrame technique that we saw in Chapter 13 and Chapter 15 to draw a box with a bouncing ball in it. The ball moves at a constant speed and bounces off the box’s sides when it hits them.*/
-    var bBox = {
-        ballR : 20,
-        ballX : 10, //center of the ball x
-        ballY : 10, //center of the ball y
-        ballSpd : 100,
-        boxW : 300,
-        boxH : 300
+    var ball = {
+        X : 20, //center of the ball x
+        Y : 20, //center of the ball y
+        Spd : 200,
+        Angle : 45,
+        boxW : 350,
+        boxH : 300,
     }
+    //draw rectangle, where the ball bounces
+    cx.strokeStyle = "red";
+    cx.lineWidth = 5;
+    cx.translate(10, 10);
+    cx.strokeRect(0, 0, ball.boxW, ball.boxH);    
     function updateAnimation(step) {
-        console.log(step);
-        //draw rectangle, where the ball bounces
-        cx.strokeStyle = "red";
-        cx.strokeRect(0, 0, bBox.boxW, bBox.boxH);
+        cx.clearRect(0, 0, ball.boxW, ball.boxH);//clears part of the canvas
         //draw ball
         cx.fillStyle = "green";
         cx.strokeStyle = "green";
         cx.beginPath();
-        if (bBox.ballX < )
-        bBox.ballX += step * bBox.ballSpd;
-        bBox.ballY += step * bBox.ballSpd;
+        
+
+        if (ball.X > ball.boxW || ball.X < 10){
+            ball.X -= 2 * step * ball.Spd * Math.cos(ball.Angle * Math.PI);
+            if (ball.Angle < 0)
+                ball.Angle -= 90;
+            else
+                ball.Angle += 90;
+        }
+        
+        ball.X += step * ball.Spd * Math.cos(ball.Angle * Math.PI);
+        ball.Y += step * ball.Spd * Math.sin(ball.Angle * Math.PI);
+        if ((bBox.ballX + 20 > bBo
+        }
         cx.arc(bBox.ballX, bBox.ballY, 20, 0, 2 * Math.PI, false);
         cx.fill();
         cx.stroke();
