@@ -1,0 +1,50 @@
+<canvas width="400" height="400"></canvas>
+<script>
+    var cx = document.querySelector("canvas").getContext("2d");
+
+    var lastTime = null;
+    function frame(time) {
+        if (lastTime != null)
+            updateAnimation(Math.min(100, time - lastTime) / 1000);
+        lastTime = time;
+        requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+
+    /*Use the requestAnimationFrame technique that we saw in Chapter 13 and Chapter 15 to draw a box with a bouncing ball in it. The ball moves at a constant speed and bounces off the box’s sides when it hits them.*/
+
+    var ball = {
+        X : 200, //center of the ball x
+        Y : 200, //center of the ball y
+        radius : 10,
+        SpdX : 150,
+        SpdY : 160,
+        boxW : 350,
+        boxH : 300,
+    }
+    //draw rectangle, where the ball bounces
+    cx.lineWidth = 5;
+    cx.translate(10, 10);   
+    function updateAnimation(step) { 
+        cx.strokeStyle = "red";       
+        cx.strokeRect(0, 0, ball.boxW, ball.boxH); 
+        cx.clearRect(0, 0, ball.boxW, ball.boxH);//clears part of the canvas
+        //draw ball
+        cx.fillStyle = "green";
+        cx.strokeStyle = "green";
+        cx.beginPath();
+        
+        ball.X += step * ball.SpdX;
+        ball.Y += step * ball.SpdY;       
+
+        if (ball.X > ball.boxW - 10 - ball.radius || ball.X < 10 + ball.radius)
+            ball.SpdX = - ball.SpdX;
+        
+        if (ball.Y > ball.boxH - 10 - ball.radius || ball.Y < 10 + ball.radius)            
+            ball.SpdY = - ball.SpdY;
+        
+        cx.arc(ball.X, ball.Y, ball.radius, 0, 2 * Math.PI, false);
+        cx.fill();
+        cx.stroke();
+    }
+</script>

@@ -1,0 +1,25 @@
+<!doctype html>
+<!--<script src="code/promise.js"></script>-->
+
+<textarea id="code">return "hi";</textarea>
+<button id="button">Run</button>
+<pre id="output"></pre>
+
+<script>
+    //Build an interface that allows people to type and run pieces of JavaScript code.
+    var code = document.querySelector('#code');
+    var output = document.querySelector('#output');
+    var button = document.querySelector('#button');
+    button.addEventListener('click', function(){
+        output.style.color = '';
+        output.innerHTML = '';
+        try{
+            var input = new Function(code.value);
+            output.innerHTML = input();            
+        }
+        catch(E){
+            output.innerHTML = "Error: " + E.message;
+            output.style.color = 'red';
+            }
+    });
+</script>
