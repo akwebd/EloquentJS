@@ -1,0 +1,40 @@
+<!doctype html>
+<!--<script src="code/promise.js"></script>-->
+
+<input type="text" id="field">
+<div id="suggestions" style="cursor: pointer"></div>
+
+<script>
+    //Extend a text field so that when the user types, a list of suggested values is shown below the field. You have an array of possible values available and should show those that start with the text that was typed. When a suggestion is clicked, replace the text field’s current value with it.
+  
+    // Builds up an array with global variable names, like
+  
+    // 'alert', 'document', and 'scrollTo'
+    var terms = [];
+    for (var name in window)
+        terms.push(name);
+
+    //detect key pressed and check for entered text
+    var field = document.querySelector('#field');
+    var hints = document.querySelector('#suggestions');
+    field.addEventListener('keyup', function(){
+        hints.innerHTML = '';//clear previous hints
+        var inputText = field.value;
+        if (inputText != "")
+            terms.forEach(function(term){
+                if(term.startsWith(inputText.toLowerCase())){
+                    var hint = document.createElement('DIV');
+                    var hintText = document.createTextNode(term);
+                    hint.appendChild(hintText);
+                    hint.addEventListener('click', function(){
+                        hints.innerHTML = '';//clear previous hints
+                        field.value = hint.innerHTML;
+                    });
+                    hints.appendChild(hint);//add hint
+                    hints.appendChild(document.createTextNode("  "));//add space between hints
+                }
+            });
+    });
+  
+    // Your code here.
+</script>
