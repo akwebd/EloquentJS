@@ -218,7 +218,7 @@ tools.Spray = function(event, cx) {
 };
 
 
-//helper function for Spray tool
+//Helper function for Spray tool
 function randomPointInRadius(radius) {
     for (;;) {
         var x = Math.random() * 2 - 1;
@@ -227,3 +227,43 @@ function randomPointInRadius(radius) {
             return {x: x * radius, y: y * radius};
     }
 }
+
+
+//Exercise 19.1
+//Define a tool called Rectangle that fills a rectangle (see the fillRect method from Chapter 16) with the current color. The rectangle should span from the point where the user pressed the mouse button to the point where they released it. Note that the latter might be above or to the left of the former.
+
+//Once it works, you’ll notice that it is somewhat jarring to not see the rectangle as you are dragging the mouse to select its size. Can you come up with a way to show some kind of rectangle during the dragging, without actually drawing to the canvas until the mouse button is released?
+
+//If nothing comes to mind, think back to the position: absolute style discussed in Chapter 13, which can be used to overlay a node on the rest of the document. The pageX and pageY properties of a mouse event can be used to position an element precisely under the mouse, by setting the left, top, width, and height styles to the correct pixel values.
+//Helper function to get rectangle parameters
+function rectPar(p1, p2){
+    return {x : Math.min(p1.x, p2.x),
+            y : Math.min(p1.y, p2.y),
+            w : Math.abs(p1.x - p2.x),
+            h : Math.abs(p1.y - p2.y)};
+}
+//Rectangle tool
+tools.Rectange = function(event, cx) {
+    var pos1r = relativePos(event, cx.canvas);
+    var pos2r = pos1r;
+    var pos1a = {x: event.pageX, y: event.pageY};
+    var pos2a = pos1a;
+    var tempRect = elt("div");
+    tempRect.style.position = "absolute";
+    tempRect.style.background = cx.fillStyle;;
+    cx.canvas.parentElement.appendChild(tempRect);
+    trackDrag(function(event) {  
+        pos2a = {x: event.pageX, y: event.pageY};
+        var rect = rectPar (pos1a, pos2a);
+        tempRect.style.left = rect.x + "px";
+        tempRect.style.top = rect.y + "px";
+        tempRect.style.width = rect.w + "px";
+        tempRect.style.height = rect.h + "px";
+    }, function(event){
+        cx.canvas.parentElement.removeChild(tempRect);
+        pos2r = relativePos(event, cx.canvas);
+        cx.moveTo(pos1r.x, pos1r.y);
+        var rect = rectPar (pos1r, pos2r);
+        cx.fillRect(rect.x, rect.y, rect.w, rect.h);
+    });
+};
