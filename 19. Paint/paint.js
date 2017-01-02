@@ -267,3 +267,31 @@ tools.Rectange = function(event, cx) {
         cx.fillRect(rect.x, rect.y, rect.w, rect.h);
     });
 };
+
+//Exercise 19.2
+//Another tool that is commonly found in graphics programs is a color picker, which allows the user to click the picture and selects the color under the mouse pointer. Build this.
+
+//For this tool, we need a way to access the content of the canvas. The toDataURL method more or less did that, but getting pixel information out of such a data URL is hard. Instead, we’ll use the getImageData method on the drawing context, which returns a rectangular piece of the image as an object with width, height, and data properties. The data property holds an array of numbers from 0 to 255, using four numbers to represent each pixel’s red, green, blue, and alpha (opaqueness) components.
+
+//This function retrieves the numbers for a single pixel from a canvas.
+function pixelAt(cx, x, y) {
+  var imgData = cx.getImageData(x, y, 1, 1).data;
+  return 'rgb(' + imgData[0] + ', ' + imgData[1] + ', ' + imgData[2] + ')';
+}
+
+tools["Pick color"] = function(event, cx) {
+    var pos = relativePos(event, cx.canvas);
+    try {
+        var pixelColor = pixelAt(cx, pos.x, pos.y);}
+    catch(e) {
+        if(e instanceof SecurityError)
+            alert("Unable to access your picture's pixel data")}
+    cx.fillStyle = pixelColor;
+    cx.strokeStyle = pixelColor;    
+  };
+
+//Exercise 19.3
+//A flood fill tool colors the pixel under the mouse and the surrounding pixels of the same color. For the purpose of this exercise, we will consider such a group to include all pixels that can be reached from our starting pixel by moving in single-pixel horizontal and vertical steps (not diagonal), without ever touching a pixel that has a color different from the starting pixel.
+tools["Flood fill"] = function(event, cx) {
+    // Your code here.
+  };
