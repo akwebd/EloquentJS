@@ -292,6 +292,42 @@ tools["Pick color"] = function(event, cx) {
 
 //Exercise 19.3
 //A flood fill tool colors the pixel under the mouse and the surrounding pixels of the same color. For the purpose of this exercise, we will consider such a group to include all pixels that can be reached from our starting pixel by moving in single-pixel horizontal and vertical steps (not diagonal), without ever touching a pixel that has a color different from the starting pixel.
+  //return pixel position in data array
+function checkAround(pos, fnct){
+    fnct({x: pos.x + 1, y: pos.y});
+    fnct({x: pos.x, y: pos.y + 1});
+    fnct({x: pos.x - 1, y: pos.y});
+    fnct({x: pos.x, y: pos.y - 1});
+}
+//Gets rgba array at given 'pos' position in picture represented by 'data' array
+function getRGBA(data, idx){
+    return data.slice(idx, idx + 4).join(',');    
+}
+//all coordinates of arrays shall be stored using
 tools["Flood fill"] = function(event, cx) {
-    // Your code here.
+    var canvas = cx.canvas;
+    var currPos = relativePos(event, canvas);//string with x,y coordinates
+    var currIdx = currPos.x + currPos.y * canvas.width;
+    var dataA = cx.getImageData(0, 0, canvas.width, canvas.height).data;
+    var refClr = getRGBA(dataA, currIdx * 4);//memorize selected color
+    var memory = [];//this will be used to store all pixels that should be changed
+    memory.push(currPos);
+    var reviewed = new Array (canvas.width * canvas.width);//full sized array is used to save memory   
+    while(memory.length){
+        currPos = memory.pop();
+        currIdx = currPos.x + currPos.y * canvas.width;        
+        cx.fillRect(currPos.x, currPos.y, 1, 1);  
+        reviewed[currIdx] = true;;
+        
+        checkAround(currPos, function(nextPos){  
+            var nextIdx = nextPos.x + nextPos.y * canvas.width;
+            if((nextPos.x >= 0) && (nextPos.x <= canvas.width)&&
+               (nextPos.y >= 0) && (nextPos.y <= canvas.height))
+                if(!reviewed[nextIdx])
+                    if(refClr === getRGBA(dataA, nextIdx * 4))
+                        memory.push(nextPos);    
+                    else
+                        reviewed[nextIdx] = true;
+        });
+    }
   };
